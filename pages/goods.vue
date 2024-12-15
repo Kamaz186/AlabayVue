@@ -50,9 +50,8 @@
     </div>
     <div v-if="isFoodWindowOpen" class="foodWindow" @click="closeFoodWindow">
       <div class="foodWindowContent" @click.stop>
-        <h2>{{ selectedFood }} меню</h2>
         <div class="foodItems">
-          <div class="foodItem" v-for="(item, index) in foodData[selectedFood]" :key="index">
+          <div class="foodItem" v-for="(item, index) in foodData" :key="index">
             <img :src="item.image" alt="food" />
             <h4>{{ item.name }}</h4>
             <p>{{ item.description }}</p>
@@ -65,41 +64,24 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useFetch } from '#app';
 
 const isFoodWindowOpen = ref(false);
 const selectedFood = ref('');
-const foodData = ref({
-  fastFood: [
-    { name: 'Бургер', description: 'Сочный бургер с говядиной и сыром', image: '' },
-    { name: 'Картофель фри', description: 'Хрустящий картофель фри', image: '' },
-    { name: 'Пицца', description: 'Классическая пицца с сыром и томатами', image: '' },
-  ],
-  russianFood: [
-    { name: 'Борщ', description: 'Традиционный украинский борщ', image: '' },
-    { name: 'Пельмени', description: 'Вареники с мясом и соусом', image: '' },
-  ],
-  vietnamFood: [
-    { name: 'Фо', description: 'Традиционный вьетнамский суп', image: '' },
-    { name: 'Спринг-роллы', description: 'Спринг-роллы с креветками', image: '' },
-  ],
-  japaneseFood: [
-    { name: 'Суши', description: 'Роллы с рыбой и рисом', image: '' },
-    { name: 'Рамен', description: 'Японский суп с лапшой и мясом', image: '' },
-  ],
-  italianFood: [
-    { name: 'Паста', description: 'Паста с соусом песто', image: '' },
-    { name: 'Пицца', description: 'Итальянская пицца с моцареллой', image: '../assets/images/italian_pizza.jpg' },
-  ],
-});
+const foodData = ref([]);
 
-const openFoodWindow = (foodType) => {
+const openFoodWindow = async (foodType) => {
   selectedFood.value = foodType;
+  const { data } = await useFetch(`/api/food/${foodType}`);
+  foodData.value = data.value || [] ;
   isFoodWindowOpen.value = true;
 };
 
 const closeFoodWindow = () => {
   isFoodWindowOpen.value = false;
+  selectedFood.value = '';
 };
+
 </script>
 
 <style scoped>
@@ -204,8 +186,12 @@ const closeFoodWindow = () => {
   flex-wrap: wrap;
 }
 
+.foodItem h4 {
+  font-size: 22px;
+}
+
 .foodItem {
-  width: 200px;
+  width: 290px;
   text-align: center;
 }
 

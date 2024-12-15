@@ -51,7 +51,10 @@
     <div v-if="isFoodWindowOpen" class="foodWindow" @click="closeFoodWindow">
       <div class="foodWindowContent" @click.stop>
         <div class="foodItems">
-          <div class="foodItem" v-for="(item, index) in foodData" :key="index">
+          <div class="foodItem" 
+          v-for="(item, index) in foodData[selectedFood]" 
+          :key="index"
+          @click="logFoodDetails(item)">
             <img :src="item.image" alt="food" />
             <h4>{{ item.name }}</h4>
             <p>{{ item.description }}</p>
@@ -64,22 +67,276 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useFetch } from '#app';
+
+import potatoeFreeImage from '../assets/images/potatoe-free.svg';
+import burgerImage from '../assets/images/burger.svg';
+import nuggetImage from '../assets/images/naggets.svg';
+import cocaColaImage from '../assets/images/cola.svg';
+import sushiImage from '../assets/images/sushi.svg';
+import shawermaImage from '../assets/images/shaurma.svg';
+import hotDogImage from '../assets/images/hot-dog.svg';
+import iceCreamImage from '../assets/images/ice-cream.svg';
+import borshSoupImage from '../assets/images/borsh.svg';
+import okroshnkaImage from '../assets/images/okroshka.svg';
+import shiSoupImage from '../assets/images/soup-shi.svg';
+import solyankaSoupImage from '../assets/images/solyanka.svg';
+import sirnikiImage from '../assets/images/sirniki.svg';
+import olivieImage from '../assets/images/olivie.svg';
+import holodecimage from '../assets/images/holodec.svg';
+import bliniImage from '../assets/images/blini.svg';
+import foSoupImage from '../assets/images/soup-fo.svg';
+import bunChaImage from '../assets/images/bun-cha.svg';
+import cocoSoupImage from '../assets/images/soup-coco.svg';
+import crispyBlinImage from '../assets/images/cryspi-blin.svg';
+import friedRiceImport from '../assets/images/fried-rice.svg';
+import choTomImage from '../assets/images/cho-tom.svg';
+import banMiImage from '../assets/images/ban-mi.svg';
+import saladRollImage from '../assets/images/salad-roll.svg';
+import sukiYakiImage from '../assets/images/sukiyaki.svg';
+import ramenImage from '../assets/images/ramen.svg';
+import riceCurryImage from '../assets/images/curry-rice.svg';
+import karaageImage from '../assets/images/kaarage.svg';
+import syabuSyabuImage from '../assets/images/syabu-syabu.svg';
+import onigiriImage from '../assets/images/onigiri.svg';
+import yakigedzaImage from '../assets/images/yakigedza.svg';
+import takoyakiImage from '../assets/images/tokoyaki.svg';
+import spagettiImage from '../assets/images/spagetti.svg';
+import pizzaImage from '../assets/images/pizza.svg';
+import frittataImage from '../assets/images/frittata.svg';
+import bruskettaImage from '../assets/images/brusketta.svg';
+import aranchiniImage from '../assets/images/aranchini.svg';
+import antipastoImage from '../assets/images/antipasto.svg';
+import karpachoImage from '../assets/images/karpacho.svg';
+import paniniImage from '../assets/images/panini.svg';
+
 
 const isFoodWindowOpen = ref(false);
 const selectedFood = ref('');
-const foodData = ref([]);
+const foodData = ref({
+  fastFood: [
+    { 
+      name: 'Картофель фри', 
+      description: 'Хрустящий картофель фри.', 
+      image: potatoeFreeImage
+    },
+    { 
+      name: 'Мясной бургер', 
+      description: 'Сочный бургер с говядиной и сыром.', 
+      image: burgerImage
+    },
+    { 
+      name: 'Нагетсы', 
+      description: 'Хрустящие куриные нагетсы с золотистой корочкой.', 
+      image: nuggetImage 
+    },
+    { 
+      name: 'Добрый кола', 
+      description: 'Освежающий газированный напиток с ярким вкусом колы.', 
+      image: cocaColaImage 
+    },
+    { 
+      name: 'Суши', 
+      description: 'Классические японские суши с разнообразными начинками.', 
+      image: sushiImage 
+    },
+    { 
+      name: 'Шаурма', 
+      description: 'Традиционная восточная шаурма с сочным мясом.', 
+      image: shawermaImage
+    },
+    { 
+      name: 'Хот-дог', 
+      description: 'Классический хот-дог с мягкой булочкой и сосиской.', 
+      image: hotDogImage
+    },
+    { 
+      name: 'Мороженое', 
+      description: 'Кремовое мороженое, тающее во рту.', 
+      image: iceCreamImage 
+    },
+  ],
+  russianFood: [
+    { 
+      name: 'Борщ', 
+      description: 'Традиционный русский борщ.', 
+      image: borshSoupImage },
+    { 
+      name: 'Окрошка', 
+      description: 'Вкусная окрошка под квас.', 
+      image:  okroshnkaImage
+    },
+    {
+      name: 'Щи',
+      description: 'Традиционный суп "Щи".',
+      image: shiSoupImage
+    },
+    {
+      name: 'Солянка',
+      description: 'Классическая солянка под сметану.',
+      image: solyankaSoupImage
+    },
+    {
+      name: 'Сырники',
+      description: 'Сладкие сырники со сгущёнкой.',
+      image: sirnikiImage
+    },
+    {
+      name: 'Оливье',
+      description: 'Вкусный салат, сделанный из майонеза.',
+      image: olivieImage
+    },
+    {
+      name: 'Холодец',
+      description: 'Вкусная закуска с хреном.',
+      image: holodecimage
+    },
+    {
+      name: 'Блины',
+      description: 'Мясные, классические, сладкие блины.',
+      image: bliniImage
+    }
+  ],
+  vietnamFood: [
+    { 
+      name: 'Фо', 
+      description: 'Традиционный вьетнамский суп.', 
+      image: foSoupImage
+    },
+    { 
+      name: 'Бун Ча', 
+      description: 'Вкусный суп Бун Ча, сделанный из свинных котлет.', 
+      image: bunChaImage
+    },
+    {
+      name: 'Кокосовый суп',
+      description: 'Суп сделанный из кокосового молока.',
+      image: cocoSoupImage
+    },
+    {
+      name: 'Хрустящий блин',
+      description: 'Вьетнамский блин с острым соусом.',
+      image: crispyBlinImage
+    },
+    {
+      name: 'Жаренный рис',
+      description: 'Ароматный жаренный рис с курицей.',
+      image: friedRiceImport
+    },
+    {
+      name: 'Чо том',
+      description: 'Традиционное блюдо из креветок, приготовленных на гриле.',
+      image: choTomImage
+    },
+    {
+      name: 'Бан ми',
+      description: 'Вкусный вьетнамский бутерброд.',
+      image: banMiImage
+    },
+    {
+      name: 'Салатные роллы',
+      description: 'Вкусные роллы из креветок.',
+      image: saladRollImage
+    }
+  ],
+  japaneseFood: [
+    { 
+      name: 'Сукияки', 
+      description: 'Макароны с тонко нарезанными кусочками говядины.', 
+      image: sukiYakiImage
+    },
+    { 
+      name: 'Рамен', 
+      description: 'Японский суп с лапшой и мясом.', 
+      image: ramenImage
+    },
+    {
+      name: 'Рис карри',
+      description: 'Острый рис с кусочками курицы.',
+      image: riceCurryImage
+    },
+    {
+      name: 'Карааге',
+      description: 'Вкусная курица в панировке.',
+      image: karaageImage
+    },
+    {
+      name: 'Сябу-сябу',
+      description: 'Похожее на сукияки, к нему подходит соус для макания.',
+      image: syabuSyabuImage
+    },
+    {
+      name: 'Онигири',
+      description: 'Блюдо, в которое заворачивают лист сушённых водрослей нори.',
+      image: onigiriImage
+    },
+    {
+      name: 'Якигёдза',
+      description: 'Японские пельмени, обжаренные в масле',
+      image: yakigedzaImage
+    },
+    {
+      name: 'Такояки',
+      description: 'Шарики из жидкого теста с начинков из отварного осьминога.',
+      image: takoyakiImage
+    }
+  ],
+  italianFood: [
+    { 
+      name: 'Спагетти', 
+      description: 'Различные итальянские спагетти.', 
+      image: spagettiImage
+    },
+    { 
+      name: 'Пицца', 
+      description: 'Итальянская пицца с моцареллой.', 
+      image: pizzaImage
+    },
+    {
+      name: 'Фриттата',
+      description: 'Итальянский омлет.',
+      image: frittataImage
+    },
+    {
+      name: 'Брускетта',
+      description: 'Отличная хлебная закуска.',
+      image: bruskettaImage
+    },
+    {
+      name: 'Аранчини',
+      description: 'Вкусные шарики из панировки.',
+      image: aranchiniImage
+    },
+    {
+      name: 'Антипасто',
+      description: 'Набор закуски из мяса, оливок, сыра.',
+      image: antipastoImage
+    },
+    {
+      name: 'Карпаччо',
+      description: 'Тонко нарезанные кусочки сырой говяжьей вырезки.',
+      image: karpachoImage
+    },
+    {
+      name: 'Панини',
+      description: 'Итальянские омлеты из ветчины и сыра.',
+      image: paniniImage
+    }
+  ],
+});
 
-const openFoodWindow = async (foodType) => {
+const openFoodWindow = (foodType) => {
   selectedFood.value = foodType;
-  const { data } = await useFetch(`/api/food/${foodType}`);
-  foodData.value = data.value || [] ;
   isFoodWindowOpen.value = true;
 };
 
 const closeFoodWindow = () => {
   isFoodWindowOpen.value = false;
   selectedFood.value = '';
+};
+
+const logFoodDetails = (item) => {
+  console.log('Вы выбрали блюдо:', item);
+  
 };
 
 </script>

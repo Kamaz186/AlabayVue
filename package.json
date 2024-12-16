@@ -10,6 +10,8 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "axios": "^1.7.9",
+    "express": "^4.21.2",
     "nuxt": "^3.14.1592",
     "vue": "latest",
     "vue-router": "latest"
@@ -17,7 +19,6 @@
   "version": "1.0.0",
   "description": "Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
   "main": "index.js",
-  "devDependencies": {},
   "keywords": [],
   "author": "",
   "license": "ISC"

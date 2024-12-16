@@ -9,41 +9,41 @@
         <div class="kitchenBlock" @click="openFoodWindow('fastFood')">
           <img src="../assets/images/fast-food.svg" alt="Фастфуд" />
           <h2>Фастфуд</h2>
-          <span>Фастфуд – это быстрая еда, созданная для удобства и скорости. 
-          Она включает популярные блюда, такие как бургеры, картофель фри, пиццу и многое другое. 
-          Быстрые и сытные закуски подойдут для перекуса на ходу или для полноценного 
-          приема пищи.</span>
+          <span>Фастфуд – это быстрая еда, созданная для удобства и скорости.
+            Она включает популярные блюда, такие как бургеры, картофель фри, пиццу и многое другое.
+            Быстрые и сытные закуски подойдут для перекуса на ходу или для полноценного
+            приема пищи.</span>
         </div>
         <div class="kitchenBlock" @click="openFoodWindow('russianFood')">
           <img src="../assets/images/russian-food.svg" alt="Русская кухня" />
           <h2>Русская кухня</h2>
-          <span>Русская кухня – это сочетание сытных, ароматных блюд, которые дарят уют и тепло. 
-          Борщ, пельмени, блины, соленья и традиционные каши – всё это создаёт особую атмосферу и 
-          насыщает разнообразием вкусов. Настоящая русская еда для тех, кто ценит традиции и 
-          домашний комфорт.</span>
+          <span>Русская кухня – это сочетание сытных, ароматных блюд, которые дарят уют и тепло.
+            Борщ, пельмени, блины, соленья и традиционные каши – всё это создаёт особую атмосферу и
+            насыщает разнообразием вкусов. Настоящая русская еда для тех, кто ценит традиции и
+            домашний комфорт.</span>
         </div>
         <div class="kitchenBlock" @click="openFoodWindow('vietnamFood')">
           <img src="../assets/images/vietnam-food.svg" alt="Вьетнамская кухня" />
           <h2>Вьетнамская кухня</h2>
-          <span>Вьетнамская кухня – это свежесть и яркость вкусов: тонкий баланс кисло-сладких, 
-          пряных и соленых нот. Фо, спринг-роллы, бун бо – всё это блюда, наполненные свежими 
-          травами, рисовой лапшой и экзотическими специями. Настоящее гастрономическое путешествие 
-          в Азию, где каждый кусочек дарит новые впечатления.</span>
+          <span>Вьетнамская кухня – это свежесть и яркость вкусов: тонкий баланс кисло-сладких,
+            пряных и соленых нот. Фо, спринг-роллы, бун бо – всё это блюда, наполненные свежими
+            травами, рисовой лапшой и экзотическими специями. Настоящее гастрономическое путешествие
+            в Азию, где каждый кусочек дарит новые впечатления.</span>
         </div>
         <div class="kitchenBlock" @click="openFoodWindow('japaneseFood')">
           <img src="../assets/images/japanese-food.svg" alt="Японская кухня" />
           <h2>Японская кухня</h2>
-          <span>Японская кухня – это гармония вкуса, красоты и простоты. Суши, роллы, 
-            рамен и сашими поражают разнообразием и изяществом. Блюда готовятся из свежайших 
-            ингредиентов, подчёркивая натуральные вкусы. Японская еда – это баланс и искусство, 
+          <span>Японская кухня – это гармония вкуса, красоты и простоты. Суши, роллы,
+            рамен и сашими поражают разнообразием и изяществом. Блюда готовятся из свежайших
+            ингредиентов, подчёркивая натуральные вкусы. Японская еда – это баланс и искусство,
             каждый прием пищи превращающий в особый ритуал.</span>
         </div>
         <div class="kitchenBlock" @click="openFoodWindow('italianFood')">
           <img src="../assets/images/italian-food.svg" alt="Итальянская кухня" />
           <h2>Итальянская кухня</h2>
-          <span>Итальянская кухня – это страсть и тепло Средиземноморья на вашей тарелке. 
-            Пицца с тонкой корочкой, паста с ароматными соусами, ризотто и нежная моцарелла – 
-            каждое блюдо пропитано свежестью и богатством вкусов. Итальянская еда – это простота и 
+          <span>Итальянская кухня – это страсть и тепло Средиземноморья на вашей тарелке.
+            Пицца с тонкой корочкой, паста с ароматными соусами, ризотто и нежная моцарелла –
+            каждое блюдо пропитано свежестью и богатством вкусов. Итальянская еда – это простота и
             любовь к натуральным ингредиентам, превращающая каждый прием пищи в праздник.</span>
         </div>
       </div>
@@ -51,10 +51,8 @@
     <div v-if="isFoodWindowOpen" class="foodWindow" @click="closeFoodWindow">
       <div class="foodWindowContent" @click.stop>
         <div class="foodItems">
-          <div class="foodItem" 
-          v-for="(item, index) in foodData[selectedFood]" 
-          :key="index"
-          @click="logFoodDetails(item)">
+          <div class="foodItem" v-for="(item, index) in foodData[selectedFood]" :key="index"
+            @click="logFoodDetails(item)">
             <img :src="item.image" alt="food" />
             <h4>{{ item.name }}</h4>
             <p>{{ item.description }}</p>
@@ -66,7 +64,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
 import potatoeFreeImage from '../assets/images/potatoe-free.svg';
 import burgerImage from '../assets/images/burger.svg';
@@ -114,56 +113,57 @@ const isFoodWindowOpen = ref(false);
 const selectedFood = ref('');
 const foodData = ref({
   fastFood: [
-    { 
-      name: 'Картофель фри', 
-      description: 'Хрустящий картофель фри.', 
+    {
+      name: 'Картофель фри',
+      description: 'Хрустящий картофель фри.',
       image: potatoeFreeImage
     },
-    { 
-      name: 'Мясной бургер', 
-      description: 'Сочный бургер с говядиной и сыром.', 
+    {
+      name: 'Мясной бургер',
+      description: 'Сочный бургер с говядиной и сыром.',
       image: burgerImage
     },
-    { 
-      name: 'Нагетсы', 
-      description: 'Хрустящие куриные нагетсы с золотистой корочкой.', 
-      image: nuggetImage 
+    {
+      name: 'Нагетсы',
+      description: 'Хрустящие куриные нагетсы с золотистой корочкой.',
+      image: nuggetImage
     },
-    { 
-      name: 'Добрый кола', 
-      description: 'Освежающий газированный напиток с ярким вкусом колы.', 
-      image: cocaColaImage 
+    {
+      name: 'Добрый кола',
+      description: 'Освежающий газированный напиток с ярким вкусом колы.',
+      image: cocaColaImage
     },
-    { 
-      name: 'Суши', 
-      description: 'Классические японские суши с разнообразными начинками.', 
-      image: sushiImage 
+    {
+      name: 'Суши',
+      description: 'Классические японские суши с разнообразными начинками.',
+      image: sushiImage
     },
-    { 
-      name: 'Шаурма', 
-      description: 'Традиционная восточная шаурма с сочным мясом.', 
+    {
+      name: 'Шаурма',
+      description: 'Традиционная восточная шаурма с сочным мясом.',
       image: shawermaImage
     },
-    { 
-      name: 'Хот-дог', 
-      description: 'Классический хот-дог с мягкой булочкой и сосиской.', 
+    {
+      name: 'Хот-дог',
+      description: 'Классический хот-дог с мягкой булочкой и сосиской.',
       image: hotDogImage
     },
-    { 
-      name: 'Мороженое', 
-      description: 'Кремовое мороженое, тающее во рту.', 
-      image: iceCreamImage 
+    {
+      name: 'Мороженое',
+      description: 'Кремовое мороженое, тающее во рту.',
+      image: iceCreamImage
     },
   ],
   russianFood: [
-    { 
-      name: 'Борщ', 
-      description: 'Традиционный русский борщ.', 
-      image: borshSoupImage },
-    { 
-      name: 'Окрошка', 
-      description: 'Вкусная окрошка под квас.', 
-      image:  okroshnkaImage
+    {
+      name: 'Борщ',
+      description: 'Традиционный русский борщ.',
+      image: borshSoupImage
+    },
+    {
+      name: 'Окрошка',
+      description: 'Вкусная окрошка под квас.',
+      image: okroshnkaImage
     },
     {
       name: 'Щи',
@@ -197,14 +197,14 @@ const foodData = ref({
     }
   ],
   vietnamFood: [
-    { 
-      name: 'Фо', 
-      description: 'Традиционный вьетнамский суп.', 
+    {
+      name: 'Фо',
+      description: 'Традиционный вьетнамский суп.',
       image: foSoupImage
     },
-    { 
-      name: 'Бун Ча', 
-      description: 'Вкусный суп Бун Ча, сделанный из свинных котлет.', 
+    {
+      name: 'Бун Ча',
+      description: 'Вкусный суп Бун Ча, сделанный из свинных котлет.',
       image: bunChaImage
     },
     {
@@ -239,14 +239,14 @@ const foodData = ref({
     }
   ],
   japaneseFood: [
-    { 
-      name: 'Сукияки', 
-      description: 'Макароны с тонко нарезанными кусочками говядины.', 
+    {
+      name: 'Сукияки',
+      description: 'Макароны с тонко нарезанными кусочками говядины.',
       image: sukiYakiImage
     },
-    { 
-      name: 'Рамен', 
-      description: 'Японский суп с лапшой и мясом.', 
+    {
+      name: 'Рамен',
+      description: 'Японский суп с лапшой и мясом.',
       image: ramenImage
     },
     {
@@ -281,14 +281,14 @@ const foodData = ref({
     }
   ],
   italianFood: [
-    { 
-      name: 'Спагетти', 
-      description: 'Различные итальянские спагетти.', 
+    {
+      name: 'Спагетти',
+      description: 'Различные итальянские спагетти.',
       image: spagettiImage
     },
-    { 
-      name: 'Пицца', 
-      description: 'Итальянская пицца с моцареллой.', 
+    {
+      name: 'Пицца',
+      description: 'Итальянская пицца с моцареллой.',
       image: pizzaImage
     },
     {
@@ -327,6 +327,7 @@ const foodData = ref({
 const openFoodWindow = (foodType) => {
   selectedFood.value = foodType;
   isFoodWindowOpen.value = true;
+  sendDataToServer(foodData.value);
 };
 
 const closeFoodWindow = () => {
@@ -334,11 +335,26 @@ const closeFoodWindow = () => {
   selectedFood.value = '';
 };
 
-const logFoodDetails = (item) => {
+const logFoodDetails = async (item) => {
   console.log('Вы выбрали блюдо:', item);
-  
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/food', { selectedItem: item });
+    console.log('Данные отправлены на сервер:', response.data);
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error.message);
+    console.error('Детали:', error.response ? error.response.data : error);
+  }
 };
 
+const sendDataToServer = async (foodData) => {
+  try {
+    const response = await axios.post('http://localhost:3000/api/food', foodData);
+    console.log('Данные отправлены на сервер:', response.data);
+  } catch (error) {
+    console.error('Ошибка при отправке данных:', error);
+  }
+};
 </script>
 
 <style scoped>

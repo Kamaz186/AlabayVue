@@ -5,7 +5,4 @@ export default defineNuxtConfig({
   css: [
     '~/assets/css/global.css',
   ],
-  serverMiddleware: [
-    { path: '/api/food', handler: '~/api/food.js' },
-  ],
 })
